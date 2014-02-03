@@ -1,0 +1,301 @@
+/**
+ * Gesktop - the intuitive desktop library	
+ * 
+ * This file contains skin definition. Follow the comments
+ * to customize your interface. After you're done just
+ * point a path to it as a gesktop configuration parameter.
+ * 
+ * Copyright by Grzegorz Gurgul 
+ * gurgul.grzegorz@gmail.com
+ */
+
+/* 
+ * Colors
+ * 
+ * #FCFCFC
+ * 
+ * 
+ */
+
+#g {
+	font-size: 0.9em;
+}
+
+#g #toolbar {
+	background-image: url("../images/stripes/toolbar.png");
+	height: 31px;
+}
+
+#g #launchpad {
+	height: 135px;
+	background-image: url("../images/quads/dirty.png");
+	top: -2px;
+	padding: 0 25px; 
+}
+
+#g #navbar {
+	height: 37px;
+	top: -3px;
+	background-image: url("../images/stripes/navbar.png");
+}
+
+
+#g #contentView {
+	top: 203px;
+	bottom: 50px;
+}
+
+#g #workspace {
+	background-image: url("../images/quads/creamy.jpg");
+}
+
+
+#g .toolbar-menu {
+	position: relative;
+	top: 2px;
+	margin: 0 5px;
+}
+
+#g #toolbar .sliderRail{
+	left: 15px;
+	right: 45px;
+	bottom: 13px;
+}
+
+#g #toolbar .location-marker {
+	background-image: url("../images/items/location-marker.png");
+	width: 34px;
+	height: 11px;
+}
+
+
+#g .navbar-tabholder {
+	height: 27px;
+	margin-bottom: 5px;
+	padding: 0 1px;
+}
+
+#g .navbar-tab * {
+	cursor: default;	
+}
+#g .navbar-tab > .m > input {
+	position: relative;
+	top: 2px;
+	cursor: default;
+}
+#g .navbar-tab > .m > img {
+	position: relative;
+	top: 5px;
+	cursor: default;
+}
+#g .navbar-tab.active input {
+	color: #CCC;
+}
+#g .navbar-tab.inactive > .l {
+	background-image: url("../images/complex/tab/l-inactive.png");
+	width: 4px;
+}
+
+#g .navbar-tab.inactive > .m {
+	background-image: url("../images/complex/tab/c-inactive.png");
+}
+
+#g .navbar-tab.inactive > .r {
+	background-image: url("../images/complex/tab/r-inactive.png");
+	width: 4px;
+}
+#g .navbar-tab.active > .l {
+	background-image: url("../images/complex/tab/l-active.png");
+	width: 4px;
+}
+
+#g .navbar-tab.active > .m {
+	background-image: url("../images/complex/tab/c-active.png");
+}
+
+#g .navbar-tab.active > .r {
+	background-image: url("../images/complex/tab/r-active.png");
+	width: 4px;
+}
+
+#g .navbar-search {
+	position: absolute;
+	bottom: 8px;
+	right: 15px;
+	height: 22px;
+}
+
+#g .navbar-search input {
+	margin-top: 1px;
+	color: #FFFFFF;
+}
+
+#g .navbar-search .icon {
+	width: 21px;
+	background-image: url("../images/complex/searchbox/l-icon.png");
+	background-repeat: none;
+}
+
+#g .navbar-search .input {
+	background-image: url("../images/complex/searchbox/c-input.png");
+	background-repeat: repeat-x;
+}
+
+#g .navbar-search .button {
+	width: 38px;
+	background-image: url("../images/complex/searchbox/r-button.png");
+	background-repeat: none;
+}
+
+#g .launcher.inactive {
+	background-image: url("../images/items/launcher-inactive.png");
+	width: 113px;
+	height: 119px;
+}
+
+#g .launcher.active {
+	background-image: url("../images/items/launcher-active.png");
+	width: 113px;
+	height: 119px;
+}
+
+#g .launcher .title {
+	padding: 1px 4px 5px;
+}
+
+/*
+ * Window
+ */
+
+#g .window > .title-bar {
+	height: 33px;
+	cursor: default;
+}
+#g .window > .status-bar {
+	height: 25px;
+}
+#g .window > .title-bar .wrapper {
+	top: 12px;
+	left: 18px;
+	right: 18px;
+}
+#g .window > .title-bar .title {
+	margin-left: 5px;
+}
+#g .window > .title-bar .close-button {
+	background-image: url("../images/icons/cross.png");
+	width: 17px;
+	height: 17px;
+}
+
+#g .window.inactive > .title-bar .title {
+	color: #CCCCCC;
+}
+#g .window.inactive > .title-bar > .l {
+	background-image: url("../images/complex/window/tl-inactive.png");
+	width: 19px;
+}
+#g .window.inactive > .title-bar > .c {
+	background-image: url("../images/complex/window/t-inactive.png");
+	margin: 0 19px;
+}
+#g .window.inactive > .title-bar > .r {
+	background-image: url("../images/complex/window/tr-inactive.png");
+	width: 19px;
+}
+#g .window.inactive > .content > .l {
+	background-image: url("../images/complex/window/l-inactive.png");
+	width: 12px;
+}
+#g .window > .content > .c {
+	background-color: #FFFFFF;
+	margin: 0 12px;
+}
+#g .window.inactive > .content > .r {
+	background-image: url("../images/complex/window/r-inactive.png");
+	width: 12px;
+}
+#g .window.inactive > .status-bar > .l {
+	background-image: url("../images/complex/window/bl-inactive.png");
+	width: 20px;
+}
+#g .window.inactive > .status-bar > .c {
+	background-image: url("../images/complex/window/b-inactive.png");
+	margin: 0 20px;
+}
+#g .window.inactive > .status-bar > .r {
+	background-image: url("../images/complex/window/br-inactive.png");
+	width: 20px;
+}
+
+#g .window > .content > .l {
+	cursor: w-resize;
+}
+#g .window > .content > .r {
+	cursor: e-resize;
+}
+#g .window > .status-bar > .c {
+	cursor: s-resize;
+}
+#g .window > .status-bar > .l {
+	cursor: sw-resize;
+}
+#g .window > .status-bar > .r {
+	cursor: se-resize;
+}
+
+#g .window.active > .title-bar .title {
+	color: #FBFBFB;
+}
+#g .window.active > .title-bar > .l {
+	background-image: url("../images/complex/window/tl-active.png");
+	width: 19px;
+}
+#g .window.active > .title-bar > .c {
+	background-image: url("../images/complex/window/t-active.png");
+	margin: 0 19px;
+}
+#g .window.active > .title-bar > .r {
+	background-image: url("../images/complex/window/tr-active.png");
+	width: 19px;
+}
+#g .window.active > .content > .l {
+	background-image: url("../images/complex/window/l-active.png");
+	width: 12px;
+}
+#g .window > .content > .c {
+	background-color: White;
+	margin: 0 12px;
+}
+#g .window.active > .content > .r {
+	background-image: url("../images/complex/window/r-active.png");
+	width: 12px;
+}
+#g .window.active > .status-bar > .l {
+	background-image: url("../images/complex/window/bl-active.png");
+	width: 20px;
+}
+#g .window.active > .status-bar > .c {
+	background-image: url("../images/complex/window/b-active.png");
+	margin: 0 20px;
+}
+#g .window.active > .status-bar > .r {
+	background-image: url("../images/complex/window/br-active.png");
+	width: 20px;
+}
+
+/*
+ * Fonts (sets)
+ */
+
+* {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	color: #e8e8e8;
+}
+
+
+
+
+
+
+

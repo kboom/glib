@@ -1,0 +1,263 @@
+/**
+ * Gesktop - the intuitive desktop library
+ * 
+ * This file contains fixed interface style configuration.
+ * Do not change. If you want to customize layout, ask for
+ * another built-in style when instantiating the library
+ * or edit the "tapestry.css" stylesheet for yourself
+ * following the comments there. * 
+ * 
+ * Copyright by Grzegorz Gurgul 
+ * gurgul.grzegorz@gmail.com
+ */
+
+/*
+ *	Make it independent from external configuration. 	
+ */
+#g {
+	min-width: 100%;
+	min-height: 100%;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: static;
+	overflow:hidden;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+#g  html, 
+#g  body, 
+#g  div, 
+#g  span, 
+#g  applet, 
+#g  object, 
+#g  iframe,
+#g  h1, 
+#g  h2, 
+#g  h3, 
+#g  h4, 
+#g  h5, 
+#g  h6, 
+#g  p, 
+#g  blockquote, 
+#g  pre,
+#g  a, 
+#g  abbr, 
+#g  acronym, 
+#g  address, 
+#g  big, 
+#g  cite, 
+#g  code,
+#g  del, 
+#g  dfn, 
+#g  em, 
+#g  img, 
+#g  ins, 
+#g  kbd, 
+#g  q, 
+#g  s, 
+#g  samp,
+#g  small, 
+#g  strike, 
+#g  strong, 
+#g  sub, 
+#g  sup, 
+#g  tt, 
+#g  var,
+#g  b, 
+#g  u, 
+#g  i, 
+#g  center,
+#g  dl, 
+#g  dt, 
+#g  dd, 
+#g  ol, 
+#g  ul, 
+#g  li,
+#g  fieldset, 
+#g  form, 
+#g  label, 
+#g  legend,
+#g  table, 
+#g  caption, 
+#g  tbody, 
+#g  tfoot, 
+#g  thead, 
+#g  tr, 
+#g  th, 
+#g  td,
+#g  article, 
+#g  aside, 
+#g  canvas, 
+#g  details, 
+#g  embed, 
+#g  figure, 
+#g  figcaption, 
+#g  footer, 
+#g  header, 
+#g  hgroup, 
+#g  menu, 
+#g  nav, 
+#g  output, 
+#g  ruby, 
+#g  section, 
+#g  summary,
+#g  time, 
+#g  mark, 
+#g  audio, 
+#g  video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+#g  article, 
+#g  aside, 
+#g  details, 
+#g  figcaption, 
+#g  figure, 
+#g  footer, 
+#g  header, 
+#g  hgroup, 
+#g  menu, 
+#g  nav, 
+#g  section {
+	display: block;
+}
+#g  body {
+	line-height: 1;
+}
+#g 	ol, 
+#g  ul {
+		list-style: none;
+}
+#g  blockquote, 
+#g  q {
+	quotes: none;
+}
+#g  blockquote:before, 
+#g  blockquote:after,
+#g  q:before, 
+#g  q:after {
+	content: '';
+	content: none;
+}
+#g  table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+
+/*
+ * Containers
+ */
+#g #toolbar,
+#g #launchpad,
+#g #navbar {
+	position: relative;	
+	width: 100%; 
+}
+
+#g #contentView,
+#g .workspace {
+	position: absolute; 
+	left: 0;
+	right: 0;
+}
+
+#g .workspace {
+	top: 0;
+	bottom: 0px;
+}
+
+
+#g #toolbar, 
+#g #navbar {	
+	background-repeat: repeat-x;
+}
+#g #toolbar {
+	
+}
+#g #launchpad {
+	overflow: hidden;
+}
+#g #launchpad > .wrapper {
+	display: table;
+	height: 100%;
+	white-space: nowrap;
+}
+#g #launchpad > .wrapper > .wrapper {
+	display: table-cell;
+	vertical-align: middle;
+	height: 100%;
+}
+#g #navbar {
+	
+}
+
+/*
+ * Details
+ */
+#g #toolbar .sliderRail{
+	position: absolute;
+}
+
+#g .toolbar-logo {
+	position: relative;	
+	float: left;
+	height: 100%;
+	vertical-align: middle;
+	z-index: 1;
+}
+
+#g .toolbar-menu {
+	position: relative;
+	float: right;
+	height: 100%; 
+	vertical-align: middle;
+	z-index: 1;	
+}
+
+#g .navbar-tabholder {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+
+#g .navbar-search {
+	position: absolute;
+}
+#g .navbar-search .icon, 
+#g .navbar-search .input, 
+#g .navbar-search .button {
+	float: left;
+	height: 100%;
+}
+
+#g .navbar-search .input {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#g .navbar-search .input > input {
+	background-color: transparent;
+	border: none;
+	height: 80%;
+	padding: 0 2px;
+}
+
+
+

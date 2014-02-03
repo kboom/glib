@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Gesktop demonstration</title>
+		<link rel="stylesheet" type="text/css" href="resources/styles/layout.css" />
+		<link rel="stylesheet" type="text/css" href="resources/styles/local.css" />
+		<link rel="stylesheet" type="text/css" href="resources/styles/tapestry.css" />
+	</head>
+	<body>
+		<script type="text/javascript" src="dependencies/jquery.js"></script>
+		<script type="text/javascript" src="../../sources/jmf.js"></script>
+		<script type="text/javascript" src="../../sources/jvc.js"></script>
+		<script type="text/javascript" src="sources/Gesktop.js"></script>
+		
+		<!--  sample configuration  -->
+		<script type="text/javascript">
+			Gesktop.config(function(System, GUI, Factory, Decorator, JVCApi) {
+				
+				var $System = System();
+				var $Factory = Factory();
+				var $Decorator = Decorator();
+				var $GUI = GUI();
+								
+				/**
+				 * User-part.
+				 */				
+				var desktop = $GUI.desktop;
+				var contentPane = $GUI.contentPane;
+				var launchPane = $GUI.launchPane;
+				var menuToolbar = $GUI.menuToolbar;
+				var navToolbar = $GUI.navToolbar;				
+				
+				// Poplate menu (being selectors for launchers)
+				var utilityMenuItem = $Factory.createMenuItem();					
+				utilityMenuItem.setTitle("Services");
+				utilityMenuItem.setTargetAction("click", function() {
+					launchPane.displayByFilter(function(launcher) {
+						if(launcher.matchesAnyKeyword("Service")) return true;
+						else return false;
+					});
+				});
+				menuToolbar.addMenuItem(utilityMenuItem);
+				
+				var utilityMenuItem = $Factory.createMenuItem();					
+				utilityMenuItem.setTitle("Tools");
+				utilityMenuItem.setTargetAction("click", function() {
+					launchPane.displayByFilter(function(launcher) {
+						if(launcher.matchesAnyKeyword("Util")) return true;
+						else return false;
+					});
+				});
+				menuToolbar.addMenuItem(utilityMenuItem);
+	
+				// Create map view
+				var mapTab = $Factory.createImageTab();					
+				mapTab.setImage("./resources/images/icons/map.png");
+				mapTab.setCloseable(false);
+				var mapWindow = $Factory.createStaticWindow();
+				mapWindow.setTitle("Static tab");	
+				mapWindow.focus();
+				mapWindow.lockFocus(true);
+				$Decorator.fitToWorkspace(mapWindow);
+				var mapContent = $Factory.createContent();
+				mapContent.setContent('<div style="background-color: blue; width:100px; height:100px;">Example content of the static tab</div>');
+				mapWindow.setContent(mapContent);
+				
+				var mapWorkspace = $Factory.createWorkspace();	
+				mapWorkspace.addWidget(mapWindow);
+									
+				$Decorator.combine("view", {
+					tab : mapTab,
+					workspace : mapWorkspace
+				});
+				
+				navToolbar.addTab(mapTab);
+				contentPane.addWorkspace(mapWorkspace);
+				
+				JMF.loadScript("./sources/utilities/WidgetUtils.js", function() {
+					var widgetUtils = WidgetUtils(JVCApi);
+					var implDetails = [
+		                { type: "distributeEvenlyHorizontalFull", title: "Equalize", image : "src", keywords : [ "Util", "Distribute", "evenly", "full" ] },
+		                { type: "distributeEvenlyHorizontal", title: "Equalize horizontally", image : "src", keywords : [ "Util", "Distribute", "evenly", "horizontal" ] },
+		                { type: "distributeEvenlyVertical", title: "Equalize vertically", image : "src", keywords : [ "Util", "Distribute", "evenly", "vertical" ] },
+		                { type: "distributeCascade", title: "Align cascade", image : "src", keywords : [ "Util", "Align", "baseline" ] },
+		                { type: "removeUnused", title: "Remove empty tabs", image : "src", keywords : [ "Util", "Remove", "workspaces" ] }
+					];
+				
+					for(var i = 0; i < implDetails.length; i++) {
+						var detail = implDetails[i];
+						var launcher = $Factory.createLauncher();
+						launcher.setTitle(detail.title);
+						launcher.setImage(detail.image);
+						launcher.addKeywords.apply(launcher, detail.keywords);
+						
+						$Decorator.combine("launcher", {
+						 	launcher : launcher,
+						 	data : {
+						 		"impl" : detail.type.split(" "),
+						 	},
+							target : function(x,y,data) {
+								var impl = data.impl;
+								for(var i = 0; i < impl.length; i++)
+									widgetUtils[impl[i]].apply(this);
+							}
+						});
+						
+						launchPane.addLauncher(launcher);
+					}
+				});
+				
+				for(var i = 0; i < 25; i++) {
+					// Create window launcher
+					var launcher = $Factory.createLauncher();
+					launcher.setTitle("Service " + i);
+					launcher.setImage("./resources/images/icons/add_window.png");
+					launcher.addKeywords(""+i, "Service");
+					
+					$Decorator.combine("launcher", {
+						launcher : launcher,
+						data : {
+							"i" : i
+						},
+						target : function(x, y, data) {
+							var window = $Factory.createDynamicWindow();
+							window.setTitle("Window " + data.i);
+							window.setWidth(600);
+							window.setHeight(300);
+							window.setMinWidth(500);
+							
+							
+							window.setOnCreateAction(function() {
+								var content = $Factory.createContent();
+								content.x = data.i;
+								content.setContent('<div style="background-color: blue; width:100px; height:100px;">Example content '+data.i+'</div>');
+								window.setContent(content);
+							});	
+							
+							
+							$Decorator.dropIntoWorkspace(window, x, y);	
+						}
+					});
+					
+					launchPane.addLauncher(launcher);
+				}
+				
+				
+				// initial view
+				navToolbar.activateTab(mapTab);
+				contentPane.switchToWorkspace(mapWorkspace);
+				launchPane.displayByFilter(function(launcher) {
+					if(launcher.matchesAnyKeyword("Service", ""+1)) return true;
+					else return false;
+				});
+			}, function(JVCApi, System, Components, Factory, Facade) {
+
+				var $Factory = Factory({
+					"Desktop" : {
+						scope : "singleton"
+					},
+					"MenuItem" : {},
+					"Launcher" : {},
+					"ImageTab" : {
+						
+					},
+					"TitledTab" : {
+						
+					},
+					"Workspace" : {},
+					"DynamicWindow" : {},
+					"StaticWindow" : {},
+					"Content" : {
+						name : "SimpleContentController"
+					},
+					"ContentPane" : {
+						scope : "singleton"
+					},
+					"LaunchPane" : {
+						scope : "singleton"
+					},
+					"MenuToolbar" : {
+						scope : "singleton"
+					},
+					"NavToolbar" : {
+						scope : "singleton"
+					},
+					"Slider" : {
+						scope : "singleton"
+					},
+					"Search" : {
+						scope : "singleton"
+					}
+				});
+
+				var $Components = Components({
+					"desktop" : $Factory.createDesktop(),
+					"contentPane" : $Factory.createContentPane(),
+					"launchPane" : $Factory.createLaunchPane(),
+					"menuToolbar" : $Factory.createMenuToolbar(),
+					"navToolbar" : $Factory.createNavToolbar(),
+					"slider" : $Factory.createSlider(),
+					"search" : $Factory.createSearch(),
+					"tabAdd" : $Factory.createImageTab()
+				});	
+				
+				var $System = System();
+				
+				
+				var workspaceWidth;
+				var workspaceHeight;
+				$System.bus.registerChangeListener("windowDimensions", function() {
+					workspaceWidth = $("#contentView").width();
+					workspaceHeight = $("#contentView").height();
+					$System.bus.fireChange("workspaceDimensions");
+				});
+				
+				var $Facade = Facade({
+					"combineView" : function(what) {
+						var workspace = what.workspace;
+						var tab = what.tab;
+						
+						tab.setTargetAction("click", function() {
+							$Components.contentPane.switchToWorkspace(workspace);
+							$Components.navToolbar.activateTab(tab);
+						});	
+					},
+					"combineLauncher" : function(what) {
+						var launcher = what.launcher;
+						var fn = what.target;
+						var data = what.data;
+						
+						launcher.setDragArea(function() {
+							return $("#g");
+						});	
+						
+						launcher.setDropArea(function() {
+							var activeWorkspaceModel = $Components.contentPane.getActiveWorkspace();
+							var activeWorkspaceView = JVCApi.inject(activeWorkspaceModel, "view");
+							return activeWorkspaceView["widgetContainer"];
+						});	
+						
+						launcher.setOnDragRejectAction(function(x, y) {
+							console.log("Drag rejected hijacked");							
+							return true;
+						});	
+						
+						launcher.setOnDragAcceptAction(function(x, y) {
+							launcher.rejectDrag();
+							fn.call(launcher, x, y, data);							
+							return false;
+						});
+						
+						launcher.setOnDragEndAction(function() {
+							$Components.launchPane.refresh();
+						});
+						
+						return launcher;
+					},
+					"combine" : function(how, what) {
+						switch(how) {
+						case "view":
+							$Facade.combineView(what);
+							break;
+						case "launcher":
+							$Facade.combineLauncher(what);
+							break;
+						}
+					},
+					"dropIntoWorkspace" : function(widget, x, y) {												
+						widget.fitInRect(x, y, workspaceWidth, 
+								workspaceHeight);		
+						
+						var activeWorkspace = $Components.contentPane.getActiveWorkspace();
+						activeWorkspace.addWidget(widget);
+						
+						return widget;
+					},
+					"fitToWorkspace" : function(widget) {
+						$Facade.maximize(widget);
+						$System.bus.registerChangeListener("workspaceDimensions", function() {
+							$Facade.maximize(widget);
+						});						
+					},
+					"maximize" : function(widget) {
+						widget.setWidth(workspaceWidth);
+						widget.setHeight(workspaceHeight);
+					}
+				});
+				
+				// Initialize slider
+				(function() {
+					var slider = $Components.slider;
+					var launchPane = $Components.launchPane;
+					var menuToolbar = $Components.menuToolbar;		
+							
+					slider.setOnSlideAction(function(scale, position) {
+						console.log(scale);
+						launchPane.rewindTo(scale);
+					});	
+					
+					$System.bus.registerChangeListener("workspaceDimensions", function() {
+						launchPane.setDisplayWidth($System.dimen.getScreenWidth());
+					});
+					
+					launchPane.setDisplayWidth($System.dimen.getScreenWidth());
+					
+					launchPane.setOnDisplayAction(function() {
+						slider.setOffsetLeft(0);
+					});
+					
+					menuToolbar.setSlider(slider);					
+				})();
+				
+				// Initialize search box
+				(function() {
+					var search = $Components.search;
+					var launchPane = $Components.launchPane;
+					var navToolbar = $Components.navToolbar;
+					
+					search.setOnSearchAction(function(phrase) {
+						launchPane.displayByFilter(function(launcher) {
+							if(phrase === "" || launcher.matchesAnyPhrase(phrase)) return true;
+							else return false;
+						});
+					});
+					
+					navToolbar.setSearch(search);			
+				})();
+
+				// Initialize add tab
+				(function() {
+					var tabAdd = $Components.tabAdd;
+					var contentPane = $Components.contentPane;
+					var navToolbar = $Components.navToolbar;
+					
+					tabAdd.setImage("./resources/images/icons/add.png");
+					tabAdd.setTargetAction("click", function() {					
+						var workspace = $Factory.createWorkspace();			
+						contentPane.addWorkspace(workspace);
+						
+						var tab = $Factory.createTitledTab();			
+						tab.setTitle("Empty tab");		
+						
+						tab.setTargetAction("click", function() {
+							contentPane.switchToWorkspace(workspace);
+							navToolbar.activateTab(tab);
+						});
+						
+						tab.setOnDestroyAction(function() {
+							if(!tab.isDisposable()) contentPane.removeWorkspace(workspace);
+						});
+						
+						workspace.setOnDestroyAction(function() {
+							if(!tab.isDisposable()) navToolbar.removeTab(tab);
+						});
+						
+						navToolbar.addTab(tab);
+						contentPane.switchToWorkspace(workspace);
+						navToolbar.activateTab(tab);					
+					});
+					tabAdd.setCloseable(false);
+					tabAdd.setLockActivation(true);
+					navToolbar.addTab(tabAdd);
+				})();	
+			}, function(JVCBuilder) {
+				
+				JVCBuilder.getModelBuilder({
+					"addModels" : {				
+						"ComponentModel" : "@sources/models/core/Component.js",
+						"CompositeComponentModel" : "@sources/models/core/CompositeComponent.js",
+						"WidgetModel" : "@sources/models/core/Widget.js",
+						"PaneModel" : "@sources/models/core/Pane.js",
+						"ActionableModel" : "@sources/models/behavior/Actionable.js",
+						"ActivateModel" : "@sources/models/behavior/Activate.js",
+						"FocusableModel" : "@sources/models/behavior/Focusable.js",
+						"TitledModel" : "@sources/models/behavior/Titled.js",
+						"SizeableModel" : "@sources/models/behavior/Sizeable.js",
+						"ResizeableModel" : "@sources/models/behavior/Resizeable.js",
+						"PositionableModel" : "@sources/models/behavior/Positionable.js",
+						"DraggableModel" : "@sources/models/behavior/Draggable.js",
+						"SlideableModel" : "@sources/models/behavior/Slideable.js",
+						"DesktopModel" : "@sources/models/Desktop.js",
+						"NavToolbarModel" : "@sources/models/NavToolbar.js",
+						"MenuToolbarModel" : "@sources/models/MenuToolbar.js",
+						"ContentPaneModel" : "@sources/models/ContentPane.js",
+						"LaunchPaneModel" : "@sources/models/LaunchPane.js",
+						"WorkspaceModel" : "@sources/models/Workspace.js",
+						"WindowModel" : "@sources/models/Window.js",
+						"StaticWindowModel" : "@sources/models/StaticWindow.js",
+						"DynamicWindowModel" : "@sources/models/DynamicWindow.js",
+						"TabModel" : "@sources/models/Tab.js",
+						"ImageTabModel" : "@sources/models/ImageTab.js",
+						"TitledTabModel" : "@sources/models/TitledTab.js",
+						"MenuItemModel" : "@sources/models/MenuItem.js",	
+						"LauncherModel" : "@sources/models/Launcher.js",
+						"SliderModel" : "@sources/models/Slider.js",
+						"SearchModel" : "@sources/models/Search.js",
+						"ContentModel" : "@sources/models/content/Content.js",				
+						"SimpleContentModel" : "@sources/models/content/SimpleContent.js",
+						"CompositeContentModel" : "@sources/models/content/CompositeContent.js",	
+					}			
+				});	
+				
+				JVCBuilder.getViewBuilder({
+					"addViews" : {
+						"DesktopView" : "@sources/views/Desktop.js",
+						"ContentPaneView" : "@sources/views/ContentPane.js",
+						"LaunchPaneView" : "@sources/views/LaunchPane.js",
+						"MenuToolbarView" : "@sources/views/MenuToolbar.js",
+						"NavToolbarView" : "@sources/views/NavToolbar.js",
+						"WorkspaceView" : "@sources/views/Workspace.js",
+						"WindowView" : "@sources/views/Window.js",
+						"DynamicWindowView" : "@sources/views/DynamicWindow.js",
+						"MenuItemView" : "@sources/views/MenuItem.js",
+						"ImageTabView" : "@sources/views/ImageTab.js",
+						"TitledTabView" : "@sources/views/TitledTab.js",
+						"LauncherView" : "@sources/views/Launcher.js",
+						"SliderView" : "@sources/views/Slider.js",
+						"SearchView" : "@sources/views/Search.js",
+						"SimpleContentView" : "@sources/views/content/SimpleContent.js",
+						"CompositeContentView" : "@sources/views/content/CompositeContent.js",
+						"RootView" : "@sources/views/extras/Root.js",
+					}
+				});
+				
+				JVCBuilder.getControllerBuilder({
+					"addControllers" : {
+						"WidgetController" : "@sources/controllers/core/Widget.js",
+						"PaneController" : "@sources/controllers/core/Pane.js",
+						"ActionableController" : "@sources/controllers/behavior/Actionable.js",
+						"ActivateController" : "@sources/controllers/behavior/Activate.js",
+						"FocusableController" : "@sources/controllers/behavior/Focusable.js",
+						"TitledController" : "@sources/controllers/behavior/Titled.js",
+						"SizeableController" : "@sources/controllers/behavior/Sizeable.js",
+						"ResizeableController" : "@sources/controllers/behavior/Resizeable.js",
+						"PositionableController" : "@sources/controllers/behavior/Positionable.js",
+						"DraggableController" : "@sources/controllers/behavior/Draggable.js",
+						"SlideableController" : "@sources/controllers/behavior/Slideable.js",
+						"WidgetController" : "@sources/controllers/core/Widget.js",
+						"DesktopController" : "@sources/controllers/Desktop.js",
+						"ContentPaneController" : "@sources/controllers/ContentPane.js",
+						"LaunchPaneController" : "@sources/controllers/LaunchPane.js",
+						"MenuToolbarController" : "@sources/controllers/MenuToolbar.js",
+						"NavToolbarController" : "@sources/controllers/NavToolbar.js",
+						"WorkspaceController" : "@sources/controllers/Workspace.js",
+						"TabController" : "@sources/controllers/Tab.js",
+						"ImageTabController" : "@sources/controllers/ImageTab.js",
+						"TitledTabController" : "@sources/controllers/TitledTab.js",				
+						"MenuItemController" : "@sources/controllers/MenuItem.js",
+						"WindowController" : "@sources/controllers/Window.js",
+						"StaticWindowController" : "@sources/controllers/StaticWindow.js",
+						"DynamicWindowController" : "@sources/controllers/DynamicWindow.js",
+						"LauncherController" : "@sources/controllers/Launcher.js",
+						"SliderController" : "@sources/controllers/Slider.js",
+						"SearchController" : "@sources/controllers/Search.js",
+						"ContentController" : "@sources/controllers/content/Content.js",
+						"SimpleContentController" : "@sources/controllers/content/SimpleContent.js",
+						"CompositeContentController" : "@sources/controllers/content/CompositeContent.js",
+					}
+				});
+			}, {
+				"jvcPath" : "sources/",
+				"setRootPath" : "./"
+			});
+		</script>	
+		
+	</body>
+</html>
