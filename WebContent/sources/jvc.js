@@ -1,3 +1,17 @@
+//  Copyright 2014 Grzegorz Gurgul gurgul.grzegorz@gmail.com
+//
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+
 (function(ns, root, def) {
 	if (typeof module !== 'undefined')
 		module.exports = def(ns, root, $);
@@ -9,7 +23,7 @@
 	
 	var DEVEL_VERSION = true;
 	
-	var path = "/JVC/sources/";
+	var componentPath = "./";
 	
 	var Exception = (function() {
 		var MISSING_RESOURCE = "MISSING_RESOURCE";
@@ -340,7 +354,7 @@
 			var MODEL_TEMPLATE = "getModelBuilder";
 			var CONTROLLER_TEMPLATE = "getControllerBuilder";		
 			var VIEW_TEMPLATE = "getViewBuilder";
-			var ROOT_PATH = "setRootPath";
+			var TEMPLATE_PATH = "templatePath";
 			
 			/**
 			 * Main builder for entire application. All other builders work on
@@ -366,7 +380,7 @@
 				this[CONTROLLER_TEMPLATE] = {};			
 				this[VIEW_TEMPLATE] = {};
 				
-				this[ROOT_PATH] = "";
+				this[TEMPLATE_PATH] = "";
 				
 				/* fixed */
 				return this;
@@ -386,7 +400,7 @@
 				
 				if(typeof(config) === "string" && config[0] === "@") {
 					/* extract it first */
-					var path = mainConfig[ROOT_PATH] + config.slice(1);
+					var path = mainConfig[TEMPLATE_PATH] + config.slice(1);
 					System["Timer"].stepForward(fileName);
 					System.loadScript(path, function() {
 						callback(root[fileName]);
@@ -413,11 +427,11 @@
 			/**
 			 * Sets absolute path used for resolving each resource.
 			 */
-			builder[ROOT_PATH] = function(config, callback) {
+			builder[TEMPLATE_PATH] = function(config, callback) {
 				config && apply.call(function(config) {
-					mainConfig[ROOT_PATH] = config;
+					mainConfig[TEMPLATE_PATH] = config;
 					callback && callback();
-				}, config, ROOT_PATH);
+				}, config, TEMPLATE_PATH);
 			};
 
 			/**
@@ -472,11 +486,11 @@
 				 * load synchroneously and do replace default ones must be
 				 * included in the separate, first block to load.
 				 */
-				"load" : function(callback, asyncModules) {
+				"load" : function(libparams, callback, asyncModules) {
 					asyncModules || (asyncModules = {});
 					var syncModulesOverrideBlock = arguments[2] || {};
 					var syncModulesBlocks = Util.slice(arguments, 3) || {};				
-
+					componentPath = libparams.componentPath;
 					System.includeEvery({
 						/* modules to include before the others */
 						"configuration" : function(System) {
@@ -485,41 +499,74 @@
 					}, function() {
 						System.includeEvery(syncModulesBlocks, function() {
 							System.includeEvery([{
-								"Timer" : asyncModules["Timer"] || "extras/Timer.js",								
-								"ModelTemplate" : asyncModules["ModelTemplate"] || "core/templates/ModelTemplate.js",
-								"ViewTemplate" : asyncModules["ViewTemplate"] || "core/templates/ViewTemplate.js",
-								"ControllerTemplate" : asyncModules["ControllerTemplate"] || "core/templates/ControllerTemplate.js"								
+								"Timer" : asyncModules["Timer"] || function(System) {
+									var log = System["Logger"].createLog("Timer module");
+
+									log.log("debug", "Preparing manager");
+									
+									var Timer = System["Timer"] = {};
+									var waitingFor = "";
+									var breaker = 100;
+									var clock = 0;
+									
+									var stepForward = Timer["stepForward"] = function(name) {
+										log.log("verbose", "Will wait for " + name);
+										waitingFor += name + " ";
+										clock++;
+									};
+									
+									var stepBackward = Timer["stepBackward"] = function(name) {
+										log.log("verbose", "No longer waiting for " + name);
+										waitingFor = waitingFor.split(name).pop();
+										clock--;
+									};
+									
+									
+									var wait = Timer["wait"] = function(callback) {
+										console.log("clock: " + clock);
+										if(clock > 0) setTimeout(function() {
+											if(breaker-- < 1) {
+												breaker = 100;
+												log.log("warn","These actions are blocking the execution: " + waitingFor);
+												return;
+											} 
+											wait(callback);
+										}, 25);		
+										else {
+											callback && callback();
+										}
+									};
+								},								
+								"ModelTemplate" : asyncModules["ModelTemplate"] || "ModelTemplate.js",
+								"ViewTemplate" : asyncModules["ViewTemplate"] || "ViewTemplate.js",
+								"ControllerTemplate" : asyncModules["ControllerTemplate"] || "ControllerTemplate.js"								
 							},{
-								"ModelFactory" : asyncModules["ModelFactory"] || "core/ModelFactory.js",
-								"ViewFactory" : asyncModules["ViewFactory"] || "core/ViewFactory.js",
-								"ControllerFactory" : asyncModules["ControllerFactory"] || "core/ControllerFactory.js",
-							}], callback, path);
-						},path);					
-					}, path);
+								"ModelFactory" : asyncModules["ModelFactory"] || "ModelFactory.js",
+								"ViewFactory" : asyncModules["ViewFactory"] || "ViewFactory.js",
+								"ControllerFactory" : asyncModules["ControllerFactory"] || "ControllerFactory.js",
+							}], callback, componentPath);
+						}, componentPath);					
+					}, componentPath);
 				},
 				/**
 				 * If a config parameter is provided, it must be complete as it replaces the default one.
 				 * If only several things have to be replaced use methods from obtained builder to
 				 * do that.
 				 */
-				"getBuilder" : function(userConfig) {
-					if(!userConfig.jvcPath) {
-						path = userConfig.jvcPath;
-					}		
-					
+				"getBuilder" : function(userConfig) {					
 					if(!!builder) {
 						var defaultConfiguration = (function() {
 							this[MODEL_TEMPLATE] = {
 								"setSuperType" : {
-									"Component" : "@" + path + "impl/Component.js",
+									"Component" : "@" + componentPath + "/Component.js",
 								},
 								"addModels" : {
-									"ChangeSupport" : "@" + path + "impl/ChangeSupport.js",
+									"ChangeSupport" : "@" + componentPath + "/ChangeSupport.js",
 								}
 							};
 							this[CONTROLLER_TEMPLATE] = {};
 							this[VIEW_TEMPLATE] = {};
-							this[ROOT_PATH] = "./";
+							this[TEMPLATE_PATH] = "./";
 							return this;
 						}).call({});
 						
@@ -528,7 +575,7 @@
 							this[CONTROLLER_TEMPLATE] = userConfig[CONTROLLER_TEMPLATE] || defaultConfiguration[CONTROLLER_TEMPLATE];
 							this[MODEL_TEMPLATE] = userConfig[MODEL_TEMPLATE] || defaultConfiguration[MODEL_TEMPLATE];
 							this[VIEW_TEMPLATE] = userConfig[VIEW_TEMPLATE] || defaultConfiguration[VIEW_TEMPLATE];
-							this[ROOT_PATH] = userConfig[ROOT_PATH] || defaultConfiguration[ROOT_PATH];
+							this[TEMPLATE_PATH] = userConfig[TEMPLATE_PATH] || defaultConfiguration[TEMPLATE_PATH];
 							return this;
 						}).call({});
 						
