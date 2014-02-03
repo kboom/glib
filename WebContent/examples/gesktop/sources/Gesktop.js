@@ -86,7 +86,7 @@
 		
 		
 		return {
-			"config" : function(userConfig, libraryConfig, componentConfig, JVCConfig) {
+			"config" : function(JVCConfig, components, componentConfig, userConfig, libraryConfig) {
 				
 				var GesktopContext = {};
 				GesktopContext.System = {};
@@ -94,7 +94,7 @@
 				GesktopContext.Factory = {};
 				GesktopContext.Facade = {};
 				
-				JVC.load(function() {
+				JVC.load(JVCConfig, function() {
 					var JVCBuilder = JVC.getBuilder(JVCConfig);
 					componentConfig(JVCBuilder);
 					
@@ -130,7 +130,7 @@
 							);						
 						});	
 					});		
-				});						
+				}, components);						
 			}
 		};
 });

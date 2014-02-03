@@ -15,7 +15,113 @@
 		
 		<!--  sample configuration  -->
 		<script type="text/javascript">
-			Gesktop.config(function(System, GUI, Factory, Decorator, JVCApi) {
+			Gesktop.config({
+				"templatePath" : "./",
+				"componentPath" : "./dependencies/glib/components/"
+			},{
+				ModelTemplate: "ModelTemplate.js",
+				ViewTemplate: "ViewTemplate.js",
+				ControllerTemplate: "ControllerTemplate.js",
+				ModelFactory: "ModelFactory.js",
+				ViewFactory: "ViewFactory.js",
+				ControllerFactory: "ControllerFactory.js"
+			}, function(JVCBuilder) {
+				
+				JVCBuilder.getModelBuilder({
+					"addModels" : {				
+						"ComponentModel" : "@sources/models/core/Component.js",
+						"CompositeComponentModel" : "@sources/models/core/CompositeComponent.js",
+						"WidgetModel" : "@sources/models/core/Widget.js",
+						"PaneModel" : "@sources/models/core/Pane.js",
+						"ActionableModel" : "@sources/models/behavior/Actionable.js",
+						"ActivateModel" : "@sources/models/behavior/Activate.js",
+						"FocusableModel" : "@sources/models/behavior/Focusable.js",
+						"TitledModel" : "@sources/models/behavior/Titled.js",
+						"SizeableModel" : "@sources/models/behavior/Sizeable.js",
+						"ResizeableModel" : "@sources/models/behavior/Resizeable.js",
+						"PositionableModel" : "@sources/models/behavior/Positionable.js",
+						"DraggableModel" : "@sources/models/behavior/Draggable.js",
+						"SlideableModel" : "@sources/models/behavior/Slideable.js",
+						"DesktopModel" : "@sources/models/Desktop.js",
+						"NavToolbarModel" : "@sources/models/NavToolbar.js",
+						"MenuToolbarModel" : "@sources/models/MenuToolbar.js",
+						"ContentPaneModel" : "@sources/models/ContentPane.js",
+						"LaunchPaneModel" : "@sources/models/LaunchPane.js",
+						"WorkspaceModel" : "@sources/models/Workspace.js",
+						"WindowModel" : "@sources/models/Window.js",
+						"StaticWindowModel" : "@sources/models/StaticWindow.js",
+						"DynamicWindowModel" : "@sources/models/DynamicWindow.js",
+						"TabModel" : "@sources/models/Tab.js",
+						"ImageTabModel" : "@sources/models/ImageTab.js",
+						"TitledTabModel" : "@sources/models/TitledTab.js",
+						"MenuItemModel" : "@sources/models/MenuItem.js",	
+						"LauncherModel" : "@sources/models/Launcher.js",
+						"SliderModel" : "@sources/models/Slider.js",
+						"SearchModel" : "@sources/models/Search.js",
+						"ContentModel" : "@sources/models/content/Content.js",				
+						"SimpleContentModel" : "@sources/models/content/SimpleContent.js",
+						"CompositeContentModel" : "@sources/models/content/CompositeContent.js",	
+					}			
+				});	
+				
+				JVCBuilder.getViewBuilder({
+					"addViews" : {
+						"DesktopView" : "@sources/views/Desktop.js",
+						"ContentPaneView" : "@sources/views/ContentPane.js",
+						"LaunchPaneView" : "@sources/views/LaunchPane.js",
+						"MenuToolbarView" : "@sources/views/MenuToolbar.js",
+						"NavToolbarView" : "@sources/views/NavToolbar.js",
+						"WorkspaceView" : "@sources/views/Workspace.js",
+						"WindowView" : "@sources/views/Window.js",
+						"DynamicWindowView" : "@sources/views/DynamicWindow.js",
+						"MenuItemView" : "@sources/views/MenuItem.js",
+						"ImageTabView" : "@sources/views/ImageTab.js",
+						"TitledTabView" : "@sources/views/TitledTab.js",
+						"LauncherView" : "@sources/views/Launcher.js",
+						"SliderView" : "@sources/views/Slider.js",
+						"SearchView" : "@sources/views/Search.js",
+						"SimpleContentView" : "@sources/views/content/SimpleContent.js",
+						"CompositeContentView" : "@sources/views/content/CompositeContent.js",
+						"RootView" : "@sources/views/extras/Root.js",
+					}
+				});
+				
+				JVCBuilder.getControllerBuilder({
+					"addControllers" : {
+						"WidgetController" : "@sources/controllers/core/Widget.js",
+						"PaneController" : "@sources/controllers/core/Pane.js",
+						"ActionableController" : "@sources/controllers/behavior/Actionable.js",
+						"ActivateController" : "@sources/controllers/behavior/Activate.js",
+						"FocusableController" : "@sources/controllers/behavior/Focusable.js",
+						"TitledController" : "@sources/controllers/behavior/Titled.js",
+						"SizeableController" : "@sources/controllers/behavior/Sizeable.js",
+						"ResizeableController" : "@sources/controllers/behavior/Resizeable.js",
+						"PositionableController" : "@sources/controllers/behavior/Positionable.js",
+						"DraggableController" : "@sources/controllers/behavior/Draggable.js",
+						"SlideableController" : "@sources/controllers/behavior/Slideable.js",
+						"WidgetController" : "@sources/controllers/core/Widget.js",
+						"DesktopController" : "@sources/controllers/Desktop.js",
+						"ContentPaneController" : "@sources/controllers/ContentPane.js",
+						"LaunchPaneController" : "@sources/controllers/LaunchPane.js",
+						"MenuToolbarController" : "@sources/controllers/MenuToolbar.js",
+						"NavToolbarController" : "@sources/controllers/NavToolbar.js",
+						"WorkspaceController" : "@sources/controllers/Workspace.js",
+						"TabController" : "@sources/controllers/Tab.js",
+						"ImageTabController" : "@sources/controllers/ImageTab.js",
+						"TitledTabController" : "@sources/controllers/TitledTab.js",				
+						"MenuItemController" : "@sources/controllers/MenuItem.js",
+						"WindowController" : "@sources/controllers/Window.js",
+						"StaticWindowController" : "@sources/controllers/StaticWindow.js",
+						"DynamicWindowController" : "@sources/controllers/DynamicWindow.js",
+						"LauncherController" : "@sources/controllers/Launcher.js",
+						"SliderController" : "@sources/controllers/Slider.js",
+						"SearchController" : "@sources/controllers/Search.js",
+						"ContentController" : "@sources/controllers/content/Content.js",
+						"SimpleContentController" : "@sources/controllers/content/SimpleContent.js",
+						"CompositeContentController" : "@sources/controllers/content/CompositeContent.js",
+					}
+				});
+			}, function(System, GUI, Factory, Decorator, JVCApi) {
 				
 				var $System = System();
 				var $Factory = Factory();
@@ -362,105 +468,6 @@
 					tabAdd.setLockActivation(true);
 					navToolbar.addTab(tabAdd);
 				})();	
-			}, function(JVCBuilder) {
-				
-				JVCBuilder.getModelBuilder({
-					"addModels" : {				
-						"ComponentModel" : "@sources/models/core/Component.js",
-						"CompositeComponentModel" : "@sources/models/core/CompositeComponent.js",
-						"WidgetModel" : "@sources/models/core/Widget.js",
-						"PaneModel" : "@sources/models/core/Pane.js",
-						"ActionableModel" : "@sources/models/behavior/Actionable.js",
-						"ActivateModel" : "@sources/models/behavior/Activate.js",
-						"FocusableModel" : "@sources/models/behavior/Focusable.js",
-						"TitledModel" : "@sources/models/behavior/Titled.js",
-						"SizeableModel" : "@sources/models/behavior/Sizeable.js",
-						"ResizeableModel" : "@sources/models/behavior/Resizeable.js",
-						"PositionableModel" : "@sources/models/behavior/Positionable.js",
-						"DraggableModel" : "@sources/models/behavior/Draggable.js",
-						"SlideableModel" : "@sources/models/behavior/Slideable.js",
-						"DesktopModel" : "@sources/models/Desktop.js",
-						"NavToolbarModel" : "@sources/models/NavToolbar.js",
-						"MenuToolbarModel" : "@sources/models/MenuToolbar.js",
-						"ContentPaneModel" : "@sources/models/ContentPane.js",
-						"LaunchPaneModel" : "@sources/models/LaunchPane.js",
-						"WorkspaceModel" : "@sources/models/Workspace.js",
-						"WindowModel" : "@sources/models/Window.js",
-						"StaticWindowModel" : "@sources/models/StaticWindow.js",
-						"DynamicWindowModel" : "@sources/models/DynamicWindow.js",
-						"TabModel" : "@sources/models/Tab.js",
-						"ImageTabModel" : "@sources/models/ImageTab.js",
-						"TitledTabModel" : "@sources/models/TitledTab.js",
-						"MenuItemModel" : "@sources/models/MenuItem.js",	
-						"LauncherModel" : "@sources/models/Launcher.js",
-						"SliderModel" : "@sources/models/Slider.js",
-						"SearchModel" : "@sources/models/Search.js",
-						"ContentModel" : "@sources/models/content/Content.js",				
-						"SimpleContentModel" : "@sources/models/content/SimpleContent.js",
-						"CompositeContentModel" : "@sources/models/content/CompositeContent.js",	
-					}			
-				});	
-				
-				JVCBuilder.getViewBuilder({
-					"addViews" : {
-						"DesktopView" : "@sources/views/Desktop.js",
-						"ContentPaneView" : "@sources/views/ContentPane.js",
-						"LaunchPaneView" : "@sources/views/LaunchPane.js",
-						"MenuToolbarView" : "@sources/views/MenuToolbar.js",
-						"NavToolbarView" : "@sources/views/NavToolbar.js",
-						"WorkspaceView" : "@sources/views/Workspace.js",
-						"WindowView" : "@sources/views/Window.js",
-						"DynamicWindowView" : "@sources/views/DynamicWindow.js",
-						"MenuItemView" : "@sources/views/MenuItem.js",
-						"ImageTabView" : "@sources/views/ImageTab.js",
-						"TitledTabView" : "@sources/views/TitledTab.js",
-						"LauncherView" : "@sources/views/Launcher.js",
-						"SliderView" : "@sources/views/Slider.js",
-						"SearchView" : "@sources/views/Search.js",
-						"SimpleContentView" : "@sources/views/content/SimpleContent.js",
-						"CompositeContentView" : "@sources/views/content/CompositeContent.js",
-						"RootView" : "@sources/views/extras/Root.js",
-					}
-				});
-				
-				JVCBuilder.getControllerBuilder({
-					"addControllers" : {
-						"WidgetController" : "@sources/controllers/core/Widget.js",
-						"PaneController" : "@sources/controllers/core/Pane.js",
-						"ActionableController" : "@sources/controllers/behavior/Actionable.js",
-						"ActivateController" : "@sources/controllers/behavior/Activate.js",
-						"FocusableController" : "@sources/controllers/behavior/Focusable.js",
-						"TitledController" : "@sources/controllers/behavior/Titled.js",
-						"SizeableController" : "@sources/controllers/behavior/Sizeable.js",
-						"ResizeableController" : "@sources/controllers/behavior/Resizeable.js",
-						"PositionableController" : "@sources/controllers/behavior/Positionable.js",
-						"DraggableController" : "@sources/controllers/behavior/Draggable.js",
-						"SlideableController" : "@sources/controllers/behavior/Slideable.js",
-						"WidgetController" : "@sources/controllers/core/Widget.js",
-						"DesktopController" : "@sources/controllers/Desktop.js",
-						"ContentPaneController" : "@sources/controllers/ContentPane.js",
-						"LaunchPaneController" : "@sources/controllers/LaunchPane.js",
-						"MenuToolbarController" : "@sources/controllers/MenuToolbar.js",
-						"NavToolbarController" : "@sources/controllers/NavToolbar.js",
-						"WorkspaceController" : "@sources/controllers/Workspace.js",
-						"TabController" : "@sources/controllers/Tab.js",
-						"ImageTabController" : "@sources/controllers/ImageTab.js",
-						"TitledTabController" : "@sources/controllers/TitledTab.js",				
-						"MenuItemController" : "@sources/controllers/MenuItem.js",
-						"WindowController" : "@sources/controllers/Window.js",
-						"StaticWindowController" : "@sources/controllers/StaticWindow.js",
-						"DynamicWindowController" : "@sources/controllers/DynamicWindow.js",
-						"LauncherController" : "@sources/controllers/Launcher.js",
-						"SliderController" : "@sources/controllers/Slider.js",
-						"SearchController" : "@sources/controllers/Search.js",
-						"ContentController" : "@sources/controllers/content/Content.js",
-						"SimpleContentController" : "@sources/controllers/content/SimpleContent.js",
-						"CompositeContentController" : "@sources/controllers/content/CompositeContent.js",
-					}
-				});
-			}, {
-				"jvcPath" : "sources/",
-				"setRootPath" : "./"
 			});
 		</script>	
 		
