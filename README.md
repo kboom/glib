@@ -9,15 +9,17 @@ It makes writing Object-Oriented applications in JavaScript more like the way yo
 You'd surely like to be able to define a type in separate file and forget for a moment about everything else unrelated to it's purpose. Narrow down it's responsibilities and implement them. After all, it's what OO is all about, isn't it? That's the way you do this:  
 
 ```
-var ModelA = {  
-name : "ModelA",  
-parent : "ModelAParent",  
-augment : [ "AugmentA", "AugmentB" ],  
-definition : function(Clazz, System) {  
-var ic = Clazz.prototype.getInstanceContext();
-var sc = Clazz.prototype.getStaticContext();  
-var sp = Clazz.prototype.getSuperType.prototype;  
-return function() {  
-}  
+var ModelA = {    
+  name : "ModelA",  
+  parent : "ModelAParent",  
+  augment : [ "AugmentA", "AugmentB" ],  
+  definition : function(Clazz, System) {  
+  var ic = Clazz.prototype.getInstanceContext();
+  var sc = Clazz.prototype.getStaticContext();  
+  var sp = Clazz.prototype.getSuperType.prototype;  
+  
+  return function() {  
+  
+  }  
 }
 ```
