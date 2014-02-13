@@ -25,4 +25,36 @@ var ModelA = {
 }
 ```
 
-This is a simplest model. It's name is _ModelA_, it extends _ModelAParent_ and have functionality _AugmentA_ and _AugmentB_ built-in. The _ic_ variable is to be used to define methods specific to all instances of the type being implemented. The _sc_ variable is a container used to hold shared data, common for each instance of the type. Referal to the base class is possible by qualifying calls from within _sp_ variable. The returned function is a constructor of the defined type. That's where the instance context is first initialized.
+This is a simplest model. It's name is _ModelA_, it extends _ModelAParent_ and have functionality _AugmentA_ and _AugmentB_ built-in. The _ic_ variable is to be used to define methods specific to all instances of the type being implemented. The _sc_ variable is a container used to hold shared data, common for each instance of the type. Referal to the base class is possible by qualifying calls from within _sp_ variable. The returned function is a constructor of the defined type. That's where the instance context is first initialized. There are three types of such templates, one for each component of the MVC model. See detailed section for more information.
+
+### Classloading mechanisms
+Such definitions must be known to the system. You do this simply by listing paths to the files used with no respect to the order used. The library will process these files in the correct order.
+
+```
+JVCBuilder.getModelBuilder({
+  "addModels" : {	
+    "ModelA" : "@models/ModelA.js",	
+    "ModelB" : "@models/ModelB.js",	
+    "ModelC" : "@models/ModelC.js",	
+  }
+});	
+
+JVCBuilder.getViewBuilder({
+  "addViews" : {
+    "ViewA" : "@views/ViewA.js",
+    "ViewB" : "@views/ViewB.js",
+    "ViewC" : "@views/ViewC.js"
+  }
+});
+
+JVCBuilder.getControllerBuilder({
+  "addControllers" : {
+    "ControllerA" : "@controllers/ControllerA.js",
+    "ControllerB" : "@controllers/ControllerB.js",
+    "ControllerC" : "@controllers/ControllerC.js"
+}
+```
+
+
+
+
