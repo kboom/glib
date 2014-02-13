@@ -25,4 +25,4 @@ var ModelA = {
 }
 ```
 
-This is a simplest model. It's name is _ModelA_, it extends _ModelAParent_ and will have functionality _AugmentA_ and _AugmentB_ built-in. You should use the _ic_ variable to define methods specific to all instances of the type you're implementing. The _sc_ variable makes you able to define fields and methods specific to the type. If you need to refer to the base class you can use the _sp_ variable. The returned function is a constructor of the defined type. That's where the instance context is first initialized.
+This is a simplest model. It's name is _ModelA_, it extends _ModelAParent_ and have functionality _AugmentA_ and _AugmentB_ built-in. The _ic_ variable is to be used to define methods specific to all instances of the type being implemented. The _sc_ variable is a container used to hold shared data, common for each instance of the type. Referal to the base class is possible by qualifying calls from within _sp_ variable. The returned function is a constructor of the defined type. That's where the instance context is first initialized.
