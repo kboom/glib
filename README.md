@@ -14,12 +14,13 @@ var ModelA = {
   parent : "ModelAParent",  
   augment : [ "AugmentA", "AugmentB" ],  
   definition : function(Clazz, System) {  
-  var ic = Clazz.prototype.getInstanceContext();
-  var sc = Clazz.prototype.getStaticContext();  
-  var sp = Clazz.prototype.getSuperType.prototype;  
+    
+    var ic = Clazz.prototype.getInstanceContext();
+    var sc = Clazz.prototype.getStaticContext();  
+    var sp = Clazz.prototype.getSuperType.prototype;  
   
-  return function() {  
-  
-  }  
+    return function() {  
+    
+    }  
 }
 ```
