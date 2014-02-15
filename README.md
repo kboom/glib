@@ -6,13 +6,13 @@ Everytime you have to craft some non-trivial code in JavaScript you don't bother
 It makes writing Object-Oriented applications in JavaScript more like the way you know it from the other languages supporting this paradigm. You are provided with *code templates* to define types, *classloading mechanisms*, *managed context and dependency injection*, built-in *MVC model* and many more just the way you like it.
 
 ## What has been already done with it?
-**Gesktop** is the demonstrational but fully-capable project based on **GlibJS**. It is a single-page application to present content in a manner more like the way you know it from the operating systems. It's very extensible so you can introduce custom components with almost no effort. 
+**Gesktop** is the demonstrational but fully-capable project based on **GlibJS**. It is a single-page application to present content in a manner more like the way you know it from the operating systems. As the final outcome might not be so appealing, the way it's build certainly is. It's very extensible so you can introduce custom components with almost no effort. It's easy to maintain. It's dependent on jQuery (no UI dependency) only.
 
 ![Gesktop 1](http://s29.postimg.org/9c1kx08dj/image.png)
 
 ![Gesktop 2](http://s27.postimg.org/nm204jmfn/image.png)
 
-You can download it from the separate repository.
+You can download it from the separate repository. Browse through the code. There's everything you need to know about how to use this library.
 
 ### Code templates
 You'd surely like to be able to define a type in separate file and forget for a moment about everything else unrelated to it's purpose. Narrow down it's responsibilities and implement them. After all, it's what OO is all about, isn't it? That's the way you do this:  
