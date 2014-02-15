@@ -1,4 +1,4 @@
-# GlibJS - a JavaScript library for advanced object-oriented programming
+# JVC - a JavaScript library for advanced object-oriented programming
 
 Everytime you have to craft some non-trivial code in JavaScript you don't bother to respect some rules you would normally follow in any other Object-Oriented language, do you? That's probably because JavaScript seems so unnatural when it comes to Object-Oriented programming that you cannot adapt to it so easily. You lack some syntax. You struggle to maintain a project structure and most likely end up having all the logically uncoupled code tied together in just one file. You are confused by the fact that JavaScript is an interpreted language. You don't have a nice IDE. And most importantly, you don't even know if what you're doing is right.
 
@@ -6,7 +6,7 @@ Everytime you have to craft some non-trivial code in JavaScript you don't bother
 It makes writing Object-Oriented applications in JavaScript more like the way you know it from the other languages supporting this paradigm. You are provided with *code templates* to define types, *classloading mechanisms*, *managed context and dependency injection*, built-in *MVC model* and many more just the way you like it.
 
 ## What has been already done with it?
-**Gesktop** is the demonstrational but fully-capable project based on **GlibJS**. It is a single-page application designed to present content in a manner similiar to the way you know from the operating systems. Although the final outcome might not be so appealing, the way it's built certainly is. It's highly customisable so you can introduce custom components almost effortlessly. It's easy to maintain. It is dependent on jQuery (no UI dependency) only.
+**Gesktop** is the demonstrational but fully-capable project based on **JVC**. It is a single-page application designed to present content in a manner similiar to the way you know from the operating systems. Although the final outcome might not be so appealing, the way it's built certainly is. It's highly customisable so you can introduce custom components almost effortlessly. It's easy to maintain. It is dependent on jQuery (no UI dependency) only.
 
 ![Gesktop 1](http://s29.postimg.org/9c1kx08dj/image.png)
 
