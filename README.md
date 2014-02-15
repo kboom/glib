@@ -60,9 +60,10 @@ You create, store and destroy such components using built-in application context
 ### Managed context and dependency injection (CDI)
 It would be very helpful to have such feature in JavaScript environment, would it not? For those who haven't experienced the greatness of such approach let's imagine the environment where you can access any object from anywhere in your application just by specifying it's name. No construction parameters, no setters, no overhead. No component know which collaborators are really the ones being used and that's what makes it so flexible. Library-wise, this is extremely simple, you won't get anything more that you need:
 
-  '''var existingOrInexistingObject = JVCApi.inject(className);'''
-  
-  '''var inexistingPrototypalObject = JVCApi.create(className, scope);'''
+'''
+var existingOrInexistingObject = JVCApi.inject(className);
+var inexistingPrototypalObject = JVCApi.create(className, scope);
+'''
 
 The first method provides you with the object of a given type. If such object doesn't exist at the moment, it will be created on the spot. Further calls will return same instance. The second call will construct objects which are not singletons and will not be shared unless you want them to.
 
@@ -102,8 +103,8 @@ var CounterView = {
   definition : function(System) {  
     
     return function() {  
-      this["buttonUp"] = $root.find("#content-leftpane-buttonUp");
-			this["counter"] = $root.find("#content-leftpane-counterLabel");
+     	this["buttonUp"] = $root.find("#content-leftpane-buttonUp");
+	this["counter"] = $root.find("#content-leftpane-counterLabel");
     }  
 }
 ```
