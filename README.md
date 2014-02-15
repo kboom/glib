@@ -60,9 +60,9 @@ You create, store and destroy such components using built-in application context
 ### Managed context and dependency injection (CDI)
 It would be very helpful to have such feature in JavaScript environment, would it not? For those who haven't experienced the greatness of such approach let's imagine the environment where you can access any object from anywhere in your application just by specifying it's name. No construction parameters, no setters, no overhead. No component know which collaborators are really the ones being used and that's what makes it so flexible. Library-wise, this is extremely simple, you won't get anything more that you need:
 
-  var existingOrInexistingObject = JVCApi.inject(className);
+  '''var existingOrInexistingObject = JVCApi.inject(className);'''
   
-  var inexistingPrototypalObject = JVCApi.create(className, scope);
+  '''var inexistingPrototypalObject = JVCApi.create(className, scope);'''
 
 The first method provides you with the object of a given type. If such object doesn't exist at the moment, it will be created on the spot. Further calls will return same instance. The second call will construct objects which are not singletons and will not be shared unless you want them to.
 
@@ -70,8 +70,69 @@ The first method provides you with the object of a given type. If such object do
 
 The purpose of most JavaScript applications is to handle the interaction with the user. In the majority of them JavaScript realizes the Controller functionality only. And that's good. But as soon as the application becomes more advanced such approach doesn't fit so nicely anymore. It's because you should not place any logic other than translation-wise inside the Controller and you will eventually end up doing so knowing it from the begining or realizing it at the end, not knowing which of two is worse. As this library is for creating advanced-standalone JavaScript applications it's natural JavaScript role has been expanded to cover all components of the MVC model.
 
-Don't worry. There is not much to learn about. You just have three templates instead of one. They seem very alike and have clear responsibilities. You get all the mechanisms you need. Let's assume we'd like to create an application that increases the counter after pressing a button and displays updated value after that. 
+Don't worry. There is not much to learn about. You just have three templates instead of one. They seem very alike and have clear responsibilities. You get all the mechanisms you need. Let's assume we'd like to create an application that increases the counter after pressing a button and displays updated value just after that. 
 
+The Model
+```
+var CounterModel = {    
+  name : "CounterModel",  
+  definition : function(Clazz, System) {  
+    
+    var ic = Clazz.prototype.getInstanceContext();
+  
+    var getCounterValue() {
+      return this["counter"];
+    }
+  
+    var countUp = function() {
+      this["counter"]++;
+      this.fireChange("countedUp");
+    }
+    
+    return function() {  
+      this["counter"] = 0;
+    }  
+}
+```
+
+The View
+```
+var CounterView = {    
+  name : "CounterView",  
+  definition : function(System) {  
+    
+    return function() {  
+      this["buttonUp"] = $root.find("#content-leftpane-buttonUp");
+			this["counter"] = $root.find("#content-leftpane-counterLabel");
+    }  
+}
+```
+
+The Controller
+```
+var CounterController = {
+	name : "CounterController",
+	definition : function(System) {
+		
+		var displayValueController = function(model) {
+			var newValue = model.getCounterValue();
+			this["counter"].setText();
+		};
+		
+		return function() {
+			var model = this["model"] = System.create("CounterModel");
+			var view = this["view"] = System.create("CounterView");
+			
+			model.registerChangeListener("countedUp", function(item) {
+				displayValueController.call(view, model, item);
+			});
+			
+			view.on("click", function() { model.countUp(); });
+			
+		};
+	}
+};
+```
 
 As this library stretches JavaScript to its blurry limits enabling you to create really awesome applications at small cost, you're bound to end up 
 
