@@ -150,7 +150,7 @@ Choose one of the examples, launch it and see how it works.
 
 ## Extensibility
 
-The library itself has been built respecting OO paradigms. Thus it is very easily configurable and extendable. You can swap almost any module morphing the behavior to suit your needs. When you need to change a functionality which already exist but does not fully suit your needs go with the configuration. If you're seeking a functionality not natively included in the library you should seek some plugins or write a new one.
+The library itself has been built respecting OO paradigms. Thus it is very easily configurable and extensible. You can swap almost any module morphing the behavior to suit your needs. When you need to change a functionality which already exist but does not fully suit your needs go with the configuration. If you're seeking a functionality not natively included in the library you should seek some plugins or write a new one.
 
 ### Configuration
 
