@@ -64,8 +64,16 @@ It would be very helpful to have such feature in JavaScript environment, would i
   
   var inexistingPrototypalObject = JVCApi.create(className, scope);
 
-The first method will provide you with the object of the fully-initialized specified type name. If such object doesn't exist at the moment, it will be created on the spot. There is only the one object of such type (it's a singleton). The second call will construct objects which are not singletons and will not be shared unless you want them to.
+The first method provides you with the object of a given type. If such object doesn't exist at the moment, it will be created on the spot. Further calls will return same instance. The second call will construct objects which are not singletons and will not be shared unless you want them to.
 
+### MVC Model
+
+The purpose of most JavaScript applications is to handle the interaction with the user. In the majority of them JavaScript realizes the Controller functionality only. And that's good. But as soon as the application becomes more advanced such approach doesn't fit so nicely anymore. It's because you should not place any logic other than translation-wise inside the Controller and you will eventually end up doing so knowing it from the begining or realizing it at the end, not knowing which of two is worse. As this library is for creating advanced-standalone JavaScript applications it's natural JavaScript role has been expanded to cover all components of the MVC model.
+
+Don't worry. There is not much to learn about. You just have three templates instead of one. They seem very alike and have clear responsibilities. You get all the mechanisms you need. Let's assume we'd like to create an application that increases the counter after pressing a button and displays updated value after that. 
+
+
+As this library stretches JavaScript to its blurry limits enabling you to create really awesome applications at small cost, you're bound to end up 
 
 
 
