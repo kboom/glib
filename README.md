@@ -69,10 +69,10 @@ You create, store and destroy such components using built-in application context
 ### Managed context and dependency injection (CDI)
 It would be very helpful to have such feature in JavaScript environment, wouldn't it? For those who haven't yet experienced how great such an approach is let's imagine the environment where you can access any object from anywhere in your application just by specifying it's name. No construction parameters, no setters, no overhead. No component knows which collaborators are really the ones being used and that's what makes it so flexible. Library-wise, it is extremely simple, you won't get anything more that you need:
 
-'''
+```
 var existingOrInexistingObject = JVCApi.inject(className);
 var inexistingPrototypalObject = JVCApi.create(className, scope);
-'''
+```
 
 The first method provides you with the object of a given type. If such object doesn't exist at the moment, it will be created on the spot. Further calls will return the same instance. The second call will construct objects which are not Singletons and will not be shared unless you want them to.
 
