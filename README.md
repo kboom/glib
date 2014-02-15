@@ -144,7 +144,15 @@ var CounterController = {
 };
 ```
 
-As this library stretches JavaScript to its blurry limits enabling you to create really awesome applications at small cost, you're bound to end up 
+## Where to start from?
+
+Choose one of the examples, launch it and see how it works. 
+
+## Extensibility
+
+The library itself has been built respecting the OO paradigms. Thus it is very easily configurable and extensible. You can swap almost any module morphing the behavior to suit your needs. 
+
+This library stretches JavaScript to its blurry limits enabling you to create really awesome applications at small cost. 
 
 
 
